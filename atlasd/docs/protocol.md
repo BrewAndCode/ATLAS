@@ -6,14 +6,14 @@ It also defines the rules for turning those messages into bytes on the pipe.
 Each kind of message is a class:
 
 ```python
-class Bar(msg):
+class Bar(Msg):
     symbol: str
     close: Decimal
     ...
 ```
 
-Every message inherits from `msg`. `msg` gives each message a tag: a field named `t` that
-holds the message's type name. When a `Bar` is encoded, the bytes include `"t": "bar"`.
+Every message inherits from `Msg`. `Msg` gives each message a tag: a field named `t` that
+holds the message's type name. When a `Bar` is encoded, the bytes include `"t": "Bar"`.
 The consumer (strategy process) reads the tag first, so it knows which kind of message
 arrived and which event it should build.
 
@@ -25,7 +25,7 @@ A `Bar` is sent through a pipe as:
 
 ## Message Types
 
-There are two types messages to be sent through the pipe from _router <---> strategy process_
+There are two types of messages to be sent through the pipe from _router <---> strategy process_
 
 ```python
 RouterMsg = Start | Bar | OrderUpdate      # daemon -> strategy
@@ -39,7 +39,7 @@ The important consideration is that strategies only talk to the **Event Router**
 ## Message Framing
 
 A pipe is a continuous stream of bytes, so we need to mark where messages end and begin.
-`Protocol.py` defines this set of rules.
+`protocol.py` defines this set of rules.
 
 Every message is sent as a **Frame**.
 Frames are a 4 byte big-endian length followed by a msgpack body.
