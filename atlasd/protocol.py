@@ -5,9 +5,8 @@ from decimal import Decimal
 
 import msgspec
 
-
 PROTOCOL_VERSION = 1
-MAX_FRAME = 16 * 1024 * 1024   # 16 MB
+MAX_FRAME = 16 * 1024 * 1024  # 16 MB
 _HEADER = struct.Struct(">I")  # big-endian unsigned 4-byte int
 
 
@@ -16,6 +15,7 @@ class Msg(msgspec.Struct, tag=True, tag_field="t"):
 
 
 # atlasd -> strategy
+
 
 class Start(Msg):
     version: int  # protocol version
@@ -40,6 +40,7 @@ class OrderUpdate(Msg):
 
 
 # strategy -> atlasd
+
 
 class Ready(Msg):
     version: int
@@ -70,7 +71,9 @@ def encode(msg: Msg) -> bytes:
     return _HEADER.pack(len(body)) + body
 
 
-async def read_frame(reader: asyncio.StreamReader, decoder: msgspec.msgpack.Decoder) -> Msg:
+async def read_frame(
+    reader: asyncio.StreamReader, decoder: msgspec.msgpack.Decoder
+) -> Msg:
     """
     Read one frame from a stream and decode it.
 
