@@ -18,7 +18,7 @@ class Msg(msgspec.Struct, tag=True, tag_field="t"):
 # atlasd -> strategy
 
 class Start(Msg):
-    version: int # protocol version
+    version: int  # protocol version
     params: dict
     state: dict
 
@@ -35,7 +35,7 @@ class Bar(Msg):
 
 
 class OrderUpdate(Msg):
-    cid: str # client order id
+    cid: str  # client order id
     status: str
 
 
@@ -46,7 +46,7 @@ class Ready(Msg):
 
 
 class Submit(Msg):
-    req_id: int # request id
+    req_id: int  # request id
     order: dict
 
 
